@@ -1,8 +1,36 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
-import dataChats from './DataChats';
+import {View, Text, StyleSheet, Image, FlatList, TextInput,KeyboardAvoidingView} from 'react-native';
+import datachats from './DataChats';
+
 
 export default class LeftBody extends Component {
+    
+    constructor(props) {
+        super(props);
+        this.state = {
+            filteredData: []
+        }
+    }
+    
+    componentDidMount() {
+        fetch('https://randomuser.me/api/?results=20')
+            .then(response => response.json())
+            .then(data => {
+                this.data = data.results;
+                this.setState({
+                    filteredData: this.data
+                });
+            })
+            .catch(error => alert('Cannot Find Server'));
+    }
+    
+    searchFilter = text => {
+        let result = this.data.filter(contact => `${contact.name.first.toUpperCase()} ${contact.name.last.toUpperCase()}`.contains(text.toUpperCase()));
+        this.setState({
+            filteredData: result
+        });
+    };
+    
     render() {
         return (
             <View style={styles.bodyLeft}>
@@ -13,31 +41,40 @@ export default class LeftBody extends Component {
                     <Image
                         source={require('../Assets/image/search.png')}
                     />
-                    <Text style={{marginLeft: 10, opacity: 1}}>Search</Text>
+                    <TextInput
+                        style={{marginLeft: 10, opacity: 1}}
+                        onChangeText={this.searchFilter}
+                        placeholder={'Search'}
+                    ></TextInput>
                 </View>
                 <View style={styles.flatStyleOutside}>
                     <FlatList
-                        data={dataChats}
-                        keyExtractor={(item) => item.name}
+                        data={this.state.filteredData}
+                        keyExtractor={(item) => item.email}
                         renderItem={({item}) =>
                             <View style={styles.flatStyleInside}>
                                 <View style={styles.profilePicName}>
                                     <Image
-                                        source={item.image}
-                                        style={{width: 50, height: 50}}
+                                        source={{uri: item.picture.large}}
+                                        style={{width: 50, height: 50,borderRadius:50}}
                                     />
-                                    <View style={{justifyContent:'center',marginLeft:5}}>
-                                        <Text>{item.name}</Text>
-                                        <Text style={{color:'black',opacity:.3,fontSize:11}}>{item.message}</Text>
+                                    <View style={{justifyContent: 'center', marginLeft: 5}}>
+                                        <Text>{item.name.first}</Text>
+                                        <Text style={{color: 'black', opacity: .3, fontSize: 11}}>{item.name.last}</Text>
                                     </View>
                                 </View>
-                                <View style={{alignItems:'flex-end',justifyContent:'space-between',flex:1,minHeight: 40}}>
+                                <View style={{
+                                    alignItems: 'flex-end',
+                                    justifyContent: 'space-between',
+                                    flex: 1,
+                                    minHeight: 40
+                                }}>
                                     <View>
                                         <Text>{item.date}</Text>
                                     </View>
-                                    {item.howMany &&
+                                    {item.registered.age >10 &&
                                     <View style={{backgroundColor: 'red', paddingHorizontal: 5, borderRadius: 50}}>
-                                        <Text style={{color: 'white', fontSize: 12,}}>{item.howMany}</Text>
+                                        <Text style={{color: 'white', fontSize: 12,}}>{item.registered.age}</Text>
                                     </View>
                                     }
                                 </View>
@@ -57,18 +94,20 @@ const styles = StyleSheet.create({
         paddingLeft: 30
     },
     chatTitle: {
-        flex: 1,
+        // flex: 1,
+        height:100,
         // backgroundColor: 'red',
         justifyContent: 'center'
     },
     searchTitle: {
-        flex: 1,
+        // flex: 1,
+        // height:100,
         // backgroundColor: 'blue',
         marginLeft: 20,
         flexDirection: 'row',
         alignItems: 'center',
         borderBottomWidth: 1,
-        borderBottomColor:'#d1d5e2',
+        borderBottomColor: '#d1d5e2',
         opacity: .5
     },
     flatStyleOutside: {
@@ -80,8 +119,8 @@ const styles = StyleSheet.create({
     flatStyleInside: {
         backgroundColor: 'white',
         flexDirection: 'row',
-        paddingHorizontal:15,
-        marginVertical:7,
+        paddingHorizontal: 15,
+        marginVertical: 7,
         justifyContent: 'space-between',
         minHeight: 80,
         maxHeight: 80,
@@ -90,7 +129,7 @@ const styles = StyleSheet.create({
     },
     profilePicName: {
         flexDirection: 'row',
-        flex:2
+        flex: 2
     }
     
 });

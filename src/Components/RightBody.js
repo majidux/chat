@@ -3,6 +3,10 @@ import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
 import dataSendMessage from './DataSendMessage';
 
 export default class RightBody extends Component {
+    
+
+    
+    
     render() {
         const EmptyItem = () =>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -86,7 +90,7 @@ export default class RightBody extends Component {
                             <Text style={{fontSize: 12, opacity: .5, marginLeft: 10}}>Type a message ...</Text>
                         </View>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <View style={{marginRight:10}}>
+                            <View style={{marginRight: 10}}>
                                 <Image
                                     source={require('../Assets/image/clip.png')}
                                 />
@@ -172,12 +176,12 @@ const styles = StyleSheet.create({
         height: 50,
         paddingHorizontal: 15,
     },
-    sendButton:{
-        backgroundColor:'#2d8cf2',
-        padding:10,
-        borderRadius:50,
+    sendButton: {
+        backgroundColor: '#2d8cf2',
+        padding: 10,
+        borderRadius: 50,
         borderWidth: 2,
-        borderColor:'#dadadf',
+        borderColor: '#dadadf',
         elevation: 10,
     }
     
