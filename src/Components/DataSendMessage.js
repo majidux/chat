@@ -25,27 +25,27 @@ export default dataSendMessage=[
         seen:require('../Assets/image/double-tick.png')
     }  ,
     {
-        key:'3',
+        key:'5',
         image:require('../Assets/image/hali.png'),
         message:'God bless You',
         date:'15:09'
         
     }  ,
     {
-        key:'4',
+        key:'6',
         reply:`Thank you`,
         date:'15:10',
         seen:require('../Assets/image/double-tick.png')
     }  ,
     {
-        key:'3',
+        key:'7',
         image:require('../Assets/image/hali.png'),
         message:'Okey',
         date:'15:09'
         
     }  ,
     {
-        key:'4',
+        key:'8',
         reply:`Goodbye`,
         date:'15:10',
         seen:require('../Assets/image/tick.png')
