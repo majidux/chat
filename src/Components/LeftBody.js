@@ -21,6 +21,11 @@ export default class LeftBody extends Component {
         this.fetchData();
     }
     
+    
+    
+    
+    
+    
     fetchData =() => fetch(`https://randomuser.me/api?results=15`)
         
         .then(response => response.json())
@@ -32,6 +37,12 @@ export default class LeftBody extends Component {
             });
         })
         .catch(error => alert('Cannot Find Server'));
+    
+    
+    
+    
+    
+    
     
     searchFilter = text => {
         let result = this.data.filter(contact => `${contact.name.first.toUpperCase()} ${contact.name.last.toUpperCase()}`.contains(text.toUpperCase()));
