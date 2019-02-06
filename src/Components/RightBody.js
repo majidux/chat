@@ -1,17 +1,40 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
+import {View, Text, StyleSheet, Image, FlatList, TextInput,TouchableOpacity} from 'react-native';
 import dataSendMessage from './DataSendMessage';
 
 export default class RightBody extends Component {
     
+    constructor(props){
+        super(props);
+        this.state={
+            items:[],
+            inputText:''
+        }
+    }
 
+    handleChange = text => {
+        this.setState({inputText:text})
+    };
     
+    
+    sendButton = () => {
+        if(!this.state.inputText.length){
+            return;
+        }
+        else{
+            const newItem = {
+                text:this.state.inputText,
+                isCompleted:false
+            };
+            this.setState(prev => ({...prev,items:[...prev.items,newItem]}),()=>this.setState({inputText:''}))
+        }
+    };
     
     render() {
         const EmptyItem = () =>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
                 <Text style={{fontSize: 25, opacity: .5}}>There is No Message</Text>
-            </View>
+            </View>;
         return (
             <View style={styles.rightBody}>
                 <View style={styles.messageStatus}>
@@ -40,29 +63,30 @@ export default class RightBody extends Component {
                 </View>
                 <View style={styles.messageBody}>
                     <FlatList
-                        data={dataSendMessage}
-                        keyExtractor={(item) => item.key}
+                        data={this.state.items}
+                        keyExtractor={(item) => item}
                         ListEmptyComponent={EmptyItem}
                         renderItem={({item}) =>
                             <View style={styles.sendReceive}>
-                                {item.message &&
-                                <View style={styles.senderMessage}>
-                                    <View style={{alignItems: 'center'}}>
-                                        <Image
-                                            source={require('../Assets/image/hali.png')}
-                                            style={{width: 50, height: 50}}
-                                        />
-                                        <Text style={{opacity: .5, fontSize: 12}}>{item.date}</Text>
-                                    </View>
-                                    <View style={styles.receiver}>
-                                        <Text>{item.message}</Text>
-                                    </View>
-                                </View>
-                                }
-                                {item.reply &&
+                                
+                                {/*<View style={styles.senderMessage}>*/}
+                                    {/*<View style={{alignItems: 'center'}}>*/}
+                                        {/*<Image*/}
+                                            {/*source={require('../Assets/image/hali.png')}*/}
+                                            {/*style={{width: 50, height: 50}}*/}
+                                        {/*/>*/}
+                                        {/*<Text style={{opacity: .5, fontSize: 12}}>{item.date}</Text>*/}
+                                    {/*</View>*/}
+                                    {/*<View style={styles.receiver}>*/}
+                                        {/*<Text>{item.text}</Text>*/}
+                                    {/*</View>*/}
+                                {/*</View>*/}
+                                
+                                
                                 <View style={styles.receiveMessage}>
                                     <View style={styles.sender}>
-                                        <Text style={{color: 'white'}}>{item.reply}</Text>
+                                        <Text style={{color: 'white'}}>{item.text}</Text>
+                                        
                                     </View>
                                     <View style={{flexDirection: 'row-reverse'}}>
                                         <Text style={{opacity: .5, fontSize: 12}}>{item.date}</Text>
@@ -71,7 +95,7 @@ export default class RightBody extends Component {
                                         />
                                     </View>
                                 </View>
-                                }
+                                
                             </View>
                         }
                     />
@@ -87,7 +111,7 @@ export default class RightBody extends Component {
                             <Image
                                 source={require('../Assets/image/emoji.png')}
                             />
-                            <Text style={{fontSize: 12, opacity: .5, marginLeft: 10}}>Type a message ...</Text>
+                            <TextInput value={this.state.inputText} onChangeText={this.handleChange.bind(this)} style={{fontSize: 12, opacity: .5, marginLeft: 10}} placeholder={'Type a message ...'}></TextInput>
                         </View>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <View style={{marginRight: 10}}>
@@ -95,11 +119,13 @@ export default class RightBody extends Component {
                                     source={require('../Assets/image/clip.png')}
                                 />
                             </View>
+                            <TouchableOpacity onPress={() => this.sendButton()}>
                             <View style={styles.sendButton}>
                                 <Image
                                     source={require('../Assets/image/send.png')}
                                 />
                             </View>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>

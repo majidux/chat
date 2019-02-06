@@ -13,7 +13,7 @@ export default class LeftBody extends Component {
             sendAPIRequest: '',
             loading:false,
             page:0,
-            data:[]
+            data:[],
         };
     }
     
