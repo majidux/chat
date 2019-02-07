@@ -1,55 +1,80 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, Image, FlatList, TextInput, TouchableHighlight, ActivityIndicator} from 'react-native';
-import datachats from './DataChats';
+// import datachats from './DataChats';
+import {connect} from 'react-redux';
+// import {fetchProductsBegin, fetchProductsFailure, fetchProductsSuccess} from '../services/actions';
 
-
-export default class LeftBody extends Component {
+class LeftBody extends Component {
+    
+    //
+    // fetchProductsBegin = () => {
+    //     this.props.dispatch(fetchProductsBegin())
+    // };
+    // fetchProductsSuccess = () => {
+    //     this.props.dispatch(fetchProductsBegin())
+    // };
+    // fetchProductsFailure = () => {
+    //     this.props.dispatch(fetchProductsBegin())
+    // };
+    //
+    //
+    //
+    //
+    //
+    // componentDidMount() {
+    //     fetchProductsBegin();
+    //     fetchProductsFailure();
+    //     fetchProductsSuccess()
+    // }
+    //
+    
+    
     
     constructor(props) {
         super(props);
         this.state = {
             filteredData: [],
-            pressStatus: false,
-            sendAPIRequest: '',
-            loading:false,
-            page:0,
-            data:[],
+            // pressStatus: false,
+            // sendAPIRequest: '',
+            // loading:false,
+            // page:0,
+            // data:[],
         };
     }
     
     componentDidMount() {
-        this.fetchData();
+        // this.fetchData();
+        this.fetchProps();
     }
     
+    fetchProps = () => this.setState({filteredData:this.props.items},console.warn(this.state.filteredData));
+    
+    
+    
+    // fetchData =() => fetch(`https://randomuser.me/api?results=15`)
+    //
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         this.data = data.results;
+    //         this.setState({
+    //             filteredData: this.data,
+    //             loading:true
+    //         });
+    //     })
+    //     .catch(error => alert('Cannot Find Server'));
     
     
     
     
     
-    fetchData =() => fetch(`https://randomuser.me/api?results=15`)
-        
-        .then(response => response.json())
-        .then(data => {
-            this.data = data.results;
-            this.setState({
-                filteredData: this.data,
-                loading:true
-            });
-        })
-        .catch(error => alert('Cannot Find Server'));
     
     
-    
-    
-    
-    
-    
-    searchFilter = text => {
-        let result = this.data.filter(contact => `${contact.name.first.toUpperCase()} ${contact.name.last.toUpperCase()}`.contains(text.toUpperCase()));
-        this.setState({
-            filteredData: result
-        });
-    };
+    // searchFilter = text => {
+    //     let result = this.data.filter(contact => `${contact.name.first.toUpperCase()} ${contact.name.last.toUpperCase()}`.contains(text.toUpperCase()));
+    //     this.setState({
+    //         filteredData: result
+    //     });
+    // };
     
     
     _onHideUnderlay() {
@@ -216,7 +241,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flexDirection: 'row',
         paddingLeft: 15,
-        // marginVertical: 7,
         justifyContent: 'space-between',
         minHeight: 80,
         alignItems: 'center',
@@ -230,3 +254,11 @@ const styles = StyleSheet.create({
     }
     
 });
+
+const mapStateToProps = (state) => {
+    return{
+        items:state.items,
+    }
+};
+
+export default connect(mapStateToProps)(LeftBody)

@@ -111,7 +111,7 @@ export default class RightBody extends Component {
                             <Image
                                 source={require('../Assets/image/emoji.png')}
                             />
-                            <TextInput value={this.state.inputText} onChangeText={this.handleChange.bind(this)} style={{fontSize: 12, opacity: .5, marginLeft: 10}} placeholder={'Type a message ...'}></TextInput>
+                            <TextInput onSubmitEditing={this.sendButton} value={this.state.inputText} onChangeText={this.handleChange.bind(this)} style={{fontSize: 12, opacity: .5, marginLeft: 10}} placeholder={'Type a message ...'}></TextInput>
                         </View>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <View style={{marginRight: 10}}>
