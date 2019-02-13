@@ -2,16 +2,19 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import Sidebar from "../Components/Sidebar";
 import Body from "../Components/Body";
-import {createStore} from "redux";
+import {applyMiddleware, createStore} from "redux";
 import {Provider} from 'react-redux';
 import resultReducer from '../services/reducer';
+import thunk from 'redux-thunk';
+
+const store = createStore(resultReducer ,applyMiddleware(thunk));
+
 
 export default class Home extends Component {
-    store = createStore(resultReducer);
     
     render() {
         return (
-            <Provider store={this.store}>
+            <Provider store={store}>
                 <View style={styles.home}>
                     <Sidebar/>
                     <Body/>

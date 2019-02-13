@@ -1,8 +1,8 @@
 import {
-    FETCH_DATAS_BEGIN,
-    FETCH_DATAS_SUCCESS,
-    FETCH_DATAS_FAILURE
-} from './actions';
+    FETCH_USER,
+    RECEIVE_POST,
+    RECEIVE_ERROR
+} from './type';
 
 const initialState = {
     items: [],
@@ -12,21 +12,21 @@ const initialState = {
 
 export default function resultReducer(state = initialState, action) {
     switch(action.type) {
-        case FETCH_DATAS_BEGIN:
+        case FETCH_USER:
             return {
                 ...state,
                 loading: true,
                 error: null
             };
         
-        case FETCH_DATAS_SUCCESS:
+        case RECEIVE_POST:
             return {
                 ...state,
                 loading: false,
                 items: action.payload.results
             };
         
-        case FETCH_DATAS_FAILURE:
+        case RECEIVE_ERROR:
             return {
                 ...state,
                 loading: false,

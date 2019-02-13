@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, Image, FlatList, TextInput, TouchableHighlight, ActivityIndicator} from 'react-native';
 // import datachats from './DataChats';
 import {connect} from 'react-redux';
-// import {fetchProductsBegin, fetchProductsFailure, fetchProductsSuccess} from '../services/actions';
+import {fetchUser, receivePost, receiveError, fetchData} from '../services/actions';
 
 class LeftBody extends Component {
     
@@ -43,13 +43,11 @@ class LeftBody extends Component {
     }
     
     componentDidMount() {
-        // this.fetchData();
-        this.fetchProps();
+        this.props.fetchData();
+       // this.fetchProps();
     }
     
-    fetchProps = () => this.setState({filteredData:this.props.items},console.warn(this.state.filteredData));
-    
-    
+    // fetchProps = () => this.setState({filteredData:this.props.items},console.warn(this.state.filteredData));
     
     // fetchData =() => fetch(`https://randomuser.me/api?results=15`)
     //
@@ -62,12 +60,6 @@ class LeftBody extends Component {
     //         });
     //     })
     //     .catch(error => alert('Cannot Find Server'));
-    
-    
-    
-    
-    
-    
     
     // searchFilter = text => {
     //     let result = this.data.filter(contact => `${contact.name.first.toUpperCase()} ${contact.name.last.toUpperCase()}`.contains(text.toUpperCase()));
@@ -113,6 +105,7 @@ class LeftBody extends Component {
     
     
     render() {
+        console.log('hi',this.props.allItems)
         return (
             <View style={styles.bodyLeft}>
                 <View style={styles.chatTitle}>
@@ -130,9 +123,9 @@ class LeftBody extends Component {
                 </View>
                 <View style={styles.flatStyleOutside}>
                     <FlatList
-                        data={this.state.filteredData}
+                        data={this.props.allItems}
                         keyExtractor={(item) => item.login.username}
-                        extraData={this.state.pressStatus}
+                        // extraData={this.state.pressStatus}
                         onEndReached={() => this.handleEnd()}
                         onEndReachedThreshold={0}
                         ListFooterComponent={() =>
@@ -141,6 +134,7 @@ class LeftBody extends Component {
                                 : <ActivityIndicator size="large" animating />}
                         refreshing={this.state.refreshing}
                         renderItem={({item}) =>
+                            
                             <TouchableHighlight
                                 onPress={() => {
                                 }}
@@ -257,8 +251,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return{
-        items:state.items,
+        allItems:state.items,
     }
 };
 
-export default connect(mapStateToProps)(LeftBody)
+export default connect(mapStateToProps , {fetchData})(LeftBody)
